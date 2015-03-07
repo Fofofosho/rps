@@ -5,7 +5,7 @@ body { font-family: 'bebas'; }
 .wrapper { display: block; max-width: 720px; margin: 0 auto; text-align: center; }
 .match { display: block; width: 100%; line-height: 160px; background-color: #00a8e1; color: #fff; }
 .match .score { display: inline-block; width: 22.2222%; font-size: 120px; vertical-align: top; margin-right: -4px; } 
-.match .target { display: inline-block; width: 27.7777%; font-size: 48px; vertical-align: top;margin-right: -4px; } 
+.match .target { display: inline-block; width: 27.7777%; font-size: 48px; vertical-align: top; margin-right: -4px; } 
 .match .actions { display: inline-block; width: 16.6666%;  vertical-align: top;margin-right: -4px; } 
 .match .actions span { display: inline-block;vertical-align: middle; width: 64px; height: 64px; background-size: contain; }
 .match .actions span:hover { opacity: 0.5; cursor: pointer;  }
@@ -23,14 +23,15 @@ body { font-family: 'bebas'; }
 @media(max-width:960px){  }
 @media(max-width:800px){  }
 @media(max-width:480px){ 
-	.match .score {font-size: 80px; text-align: left; }
-	.match .target { font-size: 42px; text-align: left;}
-	.match .actions {  text-align: right; }
-	.match .actions span { width: 32px; height: 32px; }
+	.match { line-height: 120px; }
+	.match .score {font-size: 80px; }
+	.match .target { font-size: 42px; width: 33.7777%;}
+	.match .actions {  text-align: right; width: 14.6666%; }
+	.match .actions span { width: 48px; height: 48px; }
 }
 @media(max-width:360px){ 
 	.match .score {font-size: 64px; text-align: left; }
-	.match .target { font-size: 32px; text-align: left;}
+	.match .target { font-size: 32px; }
 	.match .actions {  text-align: right; }
 	.match .actions span { width: 32px; height: 32px; }
 }
