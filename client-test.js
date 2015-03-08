@@ -8,8 +8,8 @@ var options = {
 var socket = net.connect( options.port, options.host );
 
 //Doppl3r played fofo with a rock
-socket.write('doppl3r,fofo,0');
-socket.end();
+// socket.write('doppl3r,fofo,0');
+socket.write('fofo,doppl3r,0');
 
 socket.on( 'data', function( data ) {
   console.log( 'CLIENT - DATA given: ' + data );
