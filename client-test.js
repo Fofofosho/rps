@@ -1,16 +1,21 @@
-var socket = require('net');
+var net = require('net');
 
 var options = {
-  port: 4321,
+  port: 1111,
   host: '127.1.1.1'
 };
 
-var socket = socket.connect( options.port, options.host );
+var socket = net.connect( options.port, options.host );
 
-socket.write('ROCK');
+//Doppl3r played fofo with a rock
+socket.write('doppl3r,fofo,0');
 socket.end();
 
 socket.on( 'data', function( data ) {
-  console.log( 'DATA given: ' + data );
+  console.log( 'CLIENT - DATA given: ' + data );
+});
+
+socket.on( 'error', function( err ) {
+  console.log( 'CLIENT - ERROR socket: ' + err );
 });
 
