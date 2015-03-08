@@ -16,32 +16,44 @@
 //     client.quit();
 // });
 
-var kue = require('kue');
-var jobs = kue.createQueue();
-console.log('KUE created');
+module.exports = {
 
-// function save ( sourceId, targetId, val, callback ) {
-  
-//   var myJob = jobs.create('test', {
-//     title: 'my custom test',
-//     text: 'my custom test message'
-//   });
-
-//   myJob().save( function(err){
-//     if( !err ) console.log( job.id );
-//   });
-
-// }
-
-function save () {
-  
-  var myJob = jobs.create('test', {
-    title: 'my custom test',
-    text: 'my custom test message'
+  var kue = require('kue');
+  var jobs = kue.createQueue({
+    prefix: 'q',
+    redis: {
+      port: 4321,
+      host: '127.1.1.1',
+      auth: 'password',
+      db: 3
+    }
   });
+  console.log('KUE created');
 
-  myJob().save( function(err){
-    if( !err ) console.log( job.id );
-  });
+  // function save ( sourceId, targetId, val, callback ) {
+    
+  //   var myJob = jobs.create('test', {
+  //     title: 'my custom test',
+  //     text: 'my custom test message'
+  //   });
+
+  //   myJob().save( function(err){
+  //     if( !err ) console.log( job.id );
+  //   });
+
+  // }
+
+  exports.save = function () {
+    
+    var myJob = jobs.create('test', {
+      title: 'my custom test',
+      text: 'my custom test message'
+    });
+
+    myJob().save( function(err){
+      if( !err ) console.log( job.id );
+    });
+
+  }
 
 }
