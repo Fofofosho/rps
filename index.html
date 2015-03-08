@@ -39,12 +39,12 @@
 			$(document).ready(function() { 
 				//append relationships into HTML code
 				for (i = 0; i < matches.length; i++){
-					$(".wrapper").append('<div class="match fade-effect">'+
+					$(".wrapper").append('<div class="match fade">'+
 						'<div class="score">'+matches[i].score+'</div>'+
 						'<div class="target">'+matches[i].target+'</div>'+
-						'<div class="actions"><span class="action1 fade-effect" onclick="selectAction(this);"></span></div>'+
-						'<div class="actions"><span class="action2 fade-effect" onclick="selectAction(this);"></span></div>'+
-						'<div class="actions"><span class="action3 fade-effect" onclick="selectAction(this);"></span></div></div>');
+						'<div class="actions"><span class="action1 fade" onclick="selectAction(this);"></span></div>'+
+						'<div class="actions"><span class="action2 fade" onclick="selectAction(this);"></span></div>'+
+						'<div class="actions"><span class="action3 fade" onclick="selectAction(this);"></span></div></div>');
 				}
 			});
 			$(window).load(function() {  });
