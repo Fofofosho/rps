@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Ba-Bush-Ka</title>
+		<meta name="description" content="ba bush ka babushka">
+		<meta name="author" content="jacob debenedetto forrest townsend">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+		<link rel="stylesheet" href="css/normalize.css">
+		<link rel="stylesheet" href="css/stylesheet.css">
+		<link rel='shortcut icon' type='image/x-icon' href='img/favicon.ico' />
+	</head>
+	<body>
+		<div class="wrapper noselect"></div>
+	
+		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
+		<script>
+			//prepopulate relationships with data
+			var matches = [new Match(5,"doppl3r", -1), new Match(12,"dooley", -1),
+										 new Match(3,"ted555",-1), new Match(-3,"octodad",-1),
+										 new Match(18,"roboto",-1), new Match(3,"fillistake",-1),
+										 new Match(-2,"richard4",-1), new Match(99,"dougle",-1)];
+			function Match(score, target, action){ //int, string id, -1=undefined, 0=rock, 1=paper, 2=scissors
+				this.score=score;
+				this.target=target;
+				this.action=action;
+			}
+			
+			function selectAction(e){
+				if (!$(e).closest('.match').hasClass('waiting')){
+					//do stuff
+					$(e).toggleClass("selected");
+					$(e).closest('.match').addClass('waiting');
+					//send the id to somewhere...I chose to send it to console
+					console.log('targetID:'+$(e).closest('.match').find('.target').text());
+					console.log('action:'+$(e).closest('.match').find('span').index(e));
+				}
+			}
+			$(document).ready(function() { 
+				//append relationships into HTML code
+				for (i = 0; i < matches.length; i++){
+					$(".wrapper").append('<div class="match">'+
+						'<div class="score">'+matches[i].score+'</div>'+
+						'<div class="target">'+matches[i].target+'</div>'+
+						'<div class="actions"><span class="action1 fade-effect" onclick="selectAction(this);"></span></div>'+
+						'<div class="actions"><span class="action2 fade-effect" onclick="selectAction(this);"></span></div>'+
+						'<div class="actions"><span class="action3 fade-effect" onclick="selectAction(this);"></span></div></div>');
+				}
+			});
+			$(window).load(function() {  });
+			function isMobile(){ return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true:false; }
+		</script>
+	</body>
+</html>

@@ -163,7 +163,7 @@ var communicate = function ( rc, eventObj ) {
   var connectInfo1 = dbHash.get( eventObj.sourceStr );
   var connectInfo2 = dbHash.get( eventObj.targetStr );
 
-  //Send results to player 1
+  //Send results to player 1 and player 2
   switch ( rc )
   {
     case (-1):
