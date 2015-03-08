@@ -15,7 +15,6 @@ var PORT1 = 1111;
 var PORT2 = 2222;
 var PORT3 = 3333;
 var PORT4 = 4444;
-var GLOBALTXN = 0;
 
 var server1 = net.createServer().listen( PORT1, HOST, function () {
   console.log( 'callback listener on port: ' + PORT1 );
@@ -35,7 +34,6 @@ server1.on( 'connection', function (socket) {
   senderInfo.userPort = socket.remotePort;
 
   socket.on( 'data', function (data) {
-    GLOBALTXN++;
     console.log( 'DATA: ' + data );
     var splitData = String(data).split(',');
     eventObj = {
@@ -48,28 +46,31 @@ server1.on( 'connection', function (socket) {
     //also add save(txnId, sourceId, targetId, value)
     // VALUE --- 0 rock, 1 paper, 2 scissors
     db.push( senderInfo );
-    queue.push( {source: eventObj.sourceStr,
-                  target: eventObj.targetStr,
-                  action: eventObj.actionVal}
-                , function (err) {
-                  if(err) 
-                    console.log('PUSH ERR: '+ err);
-                  else 
-                  {
-                    console.log( 'PROCESSED PUSH of eventObj: ' + eventObj );
-                    //Instead of DB insert, save to array
-                    // eventObjTable.put( eventObj.targetStr, 
-                    //   {source: eventObj.sourceStr,
-                    //   target: eventObj.targetStr,
-                    //   action: eventObj.actionVal});
-                    
-                  }
+    queue.push( 
+      {source: eventObj.sourceStr,
+      target: eventObj.targetStr,
+      action: eventObj.actionVal}, function (err) {
+        if(err) 
+          console.log('PUSH ERR: '+ err);
+        else 
+        {
+          console.log( 'PROCESSED PUSH of eventObj: ' + eventObj );
+        }
+    });
 
-          });
+  }); //socket on data end
+
+  socket.on( 'error', function (err) {
+    console.log( 'SOCKET ERROR: ' + err );
   });
-});
 
-queue = async.queue(function (task, callback) {
+  socket.on( 'drain', function() {
+    console.log( 'SOCKET DRAINED' );
+  });
+
+}); // server 1 on connection
+
+var queue = async.queue(function (task, callback) {
     console.log('DEBUG task: ' + task);
     eventObjTable.push(task);
 
@@ -198,6 +199,9 @@ var communicate = function ( rc, eventObj ) {
   {
     case (-1):
       console.log( 'DEBUG player 1 won' );
+      console.log( 'port and ip -- ' + connectInfo1.userPort + '--'
+                   + connectInfo1.userIP );
+
       net.connect(connectInfo1.userPort, connectInfo1.userIP).write('1');
       net.connect(connectInfo1.userPort, connectInfo1.userIP).end();
 

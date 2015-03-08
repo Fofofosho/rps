@@ -10,7 +10,6 @@ var socket = net.connect( options.port, options.host );
 //Doppl3r played fofo with a rock
 // socket.write('doppl3r,fofo,0');
 socket.write('fofo,doppl3r,0');
-socket.end();
 
 socket.on( 'data', function( data ) {
   console.log( 'CLIENT - DATA given: ' + data );
