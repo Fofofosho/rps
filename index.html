@@ -33,6 +33,7 @@
 					$(e).closest('.match').addClass('waiting');
 					//send the id to somewhere...I chose to send it to console
 					console.log('targetID:'+$(e).closest('.match').find('.target').text());
+					console.log('action:'+$(e).closest('.match').find('span').index(e));
 				}
 			}
 			$(document).ready(function() { 
@@ -41,9 +42,9 @@
 					$(".wrapper").append('<div class="match">'+
 						'<div class="score">'+matches[i].score+'</div>'+
 						'<div class="target">'+matches[i].target+'</div>'+
-						'<div class="actions"><span class="action1" onclick="selectAction(this);"></span></div>'+
-						'<div class="actions"><span class="action2" onclick="selectAction(this);"></span></div>'+
-						'<div class="actions"><span class="action3" onclick="selectAction(this);"></span></div></div>');
+						'<div class="actions"><span class="action1 fade-effect" onclick="selectAction(this);"></span></div>'+
+						'<div class="actions"><span class="action2 fade-effect" onclick="selectAction(this);"></span></div>'+
+						'<div class="actions"><span class="action3 fade-effect" onclick="selectAction(this);"></span></div></div>');
 				}
 			});
 			$(window).load(function() {  });
