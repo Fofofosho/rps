@@ -1,0 +1,12 @@
+{
+    "name": "rps",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "express": "~4.0.0",
+        "async": "0.9.0"
+    }
+}
