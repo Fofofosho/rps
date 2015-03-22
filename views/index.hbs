@@ -1,0 +1,23 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io();
+  socket.on('news', function (data) {
+    console.log('CLIENT: ' + data);
+    socket.emit('my other event', {my: 'data'});
+  });
+
+  function sockConn() {
+    console.log('boop connect');
+  }
+
+  function sockDisc() {
+    socket.disconnect();
+    console.log('boop disconnect');
+  }
+</script>
+
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+<br>
+<button type="button" onclick="sockConn()">Connect</button>
+<button type="button" onclick="sockDisc()">Disconnect</button>
