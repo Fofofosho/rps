@@ -1,0 +1,16 @@
+#!/usr/bin/env node
+var debug = require('debug')('rps');
+var app = require('../main');
+
+app.set('port', process.env.PORT || 3000);
+
+var server = app.listen(app.get('port'), function() {
+  debug('Express server listening on port ' + server.address().port);
+});
+
+debug( 'PORT=' + process.env.PORT );
+debug( 'PARAM1=' + process.env.PARAM1 );
+debug( 'PARAM2=' + process.env.PARAM2 );
+debug( 'PARAM3=' + process.env.PARAM3 );
+debug( 'PARAM4=' + process.env.PARAM4 );
+debug( 'PARAM5=' + process.env.PARAM5 );

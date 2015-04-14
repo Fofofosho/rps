@@ -19,7 +19,7 @@ body { font-family: 'bebas'; }
 .match.waiting .action2 { background-image: url('../img/paper2.png'); opacity: 0; }
 .match.waiting .action3 { background-image: url('../img/scissor2.png'); opacity: 0; }
 
-.form { background-color: #00a8e1; line-height: 160px; height: 160px; }
+.form { background-color: #00a8e1; line-height: 160px; height: 160px;  width: 100%; }
 .form input { background-color: transparent; line-height: 48px; font-size: 48px; width: 32.3333%; color: #fff; font-family: 'bebas'; border: none; line-height: inherit; padding: 0; text-align: center; outline: none; }
 .form ::-webkit-input-placeholder { color: rgba(255,255,255,0.25); } .form :-moz-placeholder { color: rgba(255,255,255,0.25); } .form ::-moz-placeholder { color: rgba(255,255,255,0.25); } .form :-ms-input-placeholder { color: rgba(255,255,255,0.25); }
 .form input:focus { color: #00a8e1; background-color: #fff; line-height: 48px; margin: 0px 5%; width: 22.3333%; }

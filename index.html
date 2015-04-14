@@ -11,13 +11,7 @@
 		<link rel='shortcut icon' type='image/x-icon' href='img/favicon.ico' />
 	</head>
 	<body>
-		<div class="wrapper noselect">
-            <form class="form" action="demo_form.asp">
-                <input class="fade" type="text" name="name" placeholder="name">
-                <input class="fade" type="password" name="password" placeholder="password">
-                <input class="fade" type="submit" value="login">
-            </form>
-        </div>
+		<div class="wrapper noselect"></div>
 	
 		<script type="text/javascript" src="js/jquery-2.1.0.js"></script>
 		<script>
@@ -30,8 +24,8 @@
                             new Match(-2,"richard4",-1), new Match(99,"dougle",-1)];
             
             $(document).ready(function() { 
-                checkLogin();
-				refreshMatches();
+                initLogin();
+				
 			});
 			$(window).load(function() {  });
             
@@ -41,8 +35,49 @@
 				this.action=action;
 			}
 			
-            function checkLogin(){
-                
+            function initLogin(){
+                //append the login forms
+                $(".wrapper").append('<form class="form" id="form1" autocomplete="off">'+
+                    '<input class="fade" type="text" name="name" placeholder="name">'+
+                    '<input class="fade" type="password" name="password" placeholder="password">'+
+                    '<input class="fade" type="submit" value="login"></form>');
+                $("#form1").submit(function(e){ validateLogin(); return false; });
+            }
+            
+            function initSearch(){
+                //append the search options
+                $(".wrapper").append('<form class="form" id="form2">'+
+                    '<input class="fade" type="text" name="name" placeholder="friend">'+
+                    '<input class="fade" type="submit" value="search"></form>');
+                $("#form2").submit(function(e){ search($('#form2').find('input[name="name"]').val()); return false; });
+            }
+            
+            function initLogout(){
+                //append the logout button
+                $(".wrapper").append('<form class="form" id="form3">'+
+                    '<input class="fade" type="submit" value="logout"></form>');
+                $("#form3").submit(function(e){ logout(); return false; });
+            }
+            
+            function validateLogin(){
+                //check the server for appropriate name and password
+                if (true){
+                    console.log("name: "+$('#form1').find('input[name="name"]').val());
+                    console.log("password: "+$('#form1').find('input[name="password"]').val());
+                    $(".wrapper").empty(); //empty the main window;
+                    refreshMatches();
+                }
+            }
+            
+            function search(name){
+                if (name.length <= 0) $('#form2').find('input[name="name"]').focus();
+                else { console.log("searched name: "+name); alert('no matches found');  }
+            }
+            
+            function logout(){
+                $(".wrapper").empty(); //empty the main window;
+                initLogin();
+                alert('you have successfully logged out');
             }
             
 			function selectAction(e){
@@ -52,7 +87,10 @@
 					$(e).closest('.match').addClass('waiting');
 					//send the id to somewhere...I chose to send it to console
 					console.log('targetID:'+$(e).closest('.match').find('.target').text());
-					console.log('action:'+$(e).closest('.match').find('span').index(e));
+					console.log('action:'+ $(e).closest('.match').find('span').index(e));
+                    
+                    //save the matches to the local system
+                    matches[$(e).closest('.match').index()].action = $(e).closest('.match').find('span').index(e);
 				}
 			}
             
@@ -67,6 +105,9 @@
 						'<div class="actions"><span class="action3 fade" onclick="selectAction(this);"></span></div></div>');
                     $(".match").eq(i).find(".action"+(matches[i].action+1)).toggleClass("selected"); //toggle class action value
 				}
+                initSearch(); //append search option
+                initLogout(); //append logout field
+                
             }
 			function isMobile(){ return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? true:false; }
 		</script>
