@@ -27,13 +27,23 @@ io.on( 'connection', function (socket) {
   console.log('SERVER: Sockets connected ' + ++sCount);
   socket.emit('news', { hello: 'world' });
   socket.on('my other event', function (data) {
-    console.log('SERVER: ' + data);
+    console.log('SERVER: ');
+    console.log(data);
+  });
+
+  socket.on('serverMsg', function (data) {
+    console.log('SERVER received: ' + data);
+    console.log('forwarding::');
+    console.log(data);
+    io.sockets.in('all').emit('allmsg', { message: data });
   });
 
   socket.on( 'disconnect', function(err) {
     --sCount;
     console.log('SERVER: client disconnect ' + sCount);
   });
+
+  socket.join('all');
 
 });
 

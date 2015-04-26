@@ -1,23 +1,93 @@
 <script src="/socket.io/socket.io.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 <script>
-  var socket = io();
-  socket.on('news', function (data) {
-    console.log('CLIENT: ' + data);
-    socket.emit('my other event', {my: 'data'});
-  });
+  var socket;
+  initSocket(true);
+
+  function initSocket(bool) {
+    console.log('>> ==============initSocket================');
+    if ( bool === true )
+    {  
+      if ( socket == undefined )
+        socket = io();
+      else
+        console.log('WOOOOOOAH');
+    }
+    else
+    {
+      socket = io.connect('http://localhost:3000',{'forceNew':true});
+    }
+    console.log(socket);
+    
+    console.log('<< ==============initSocket================');
+  }
 
   function sockConn() {
-    console.log('boop connect');
+  console.log('>> ==============sockConn================');
+    var isConnected = socket.connected;
+    console.log(isConnected);
+    if ( !isConnected )
+    {
+      initSocket(false);
+      socket.emit('my other event', {my: 'dataaa'});
+      console.log('boop connect');
+      console.log('<< ===============sockConn===============');
+    }
   }
 
   function sockDisc() {
-    socket.disconnect();
-    console.log('boop disconnect');
+    console.log('>> ==============sockDisc================');
+    var isConnected = socket.connected;
+    if ( isConnected )
+    {
+      socket.disconnect();
+      console.log('boop disconnect');
+    }
+    console.log(isConnected);
+    console.log(socket);
+    console.log('<< ==============sockDisc================');
   }
+
+  function emitMsg() {
+    console.log('>> ==============emitMsg================');
+
+    var text = document.getElementById('inputText');
+    console.log('retrieved text: ' + text.value);
+    var msg = text.value;
+
+    socket.emit('serverMsg', {id: socket.id, message: text.value})
+
+    text.value = '';
+
+    console.log('<< ==============emitMsg================');
+  }
+
+  socket.on('news', function (data) {
+    console.log('CLIENT RECEIVED:vvv');
+    console.log(data);
+    socket.emit('my other event', {my: 'dataaa'});
+  });
+
+  socket.on('allmsg', function (data) {
+    if ( data.message.id != socket.id )
+    {
+      console.log('BROADCASTed CLIENT MSG:vvv');
+      console.log(data.message.id);
+      $(function() {
+        $('#pp').text = data.message.id;
+      });
+    }
+  });
+
 </script>
 
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
+<p>notes: {{note}}</p>
+<div id='pp'> </div>
 <br>
 <button type="button" onclick="sockConn()">Connect</button>
 <button type="button" onclick="sockDisc()">Disconnect</button>
+<br>
+<input id="inputText" type="text"/>
+<button type="button" onclick="emitMsg()">Emit</button>
