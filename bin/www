@@ -18,24 +18,28 @@ app.set('port', port);
 /**
  * Create HTTP server.
  */
-
 var server = http.Server(app);
 var io = require('socket.io')(server);
 var sCount = 0;
 
+
+/**
+ * On socket connection.
+ */
 io.on( 'connection', function (socket) {
   console.log('SERVER: Sockets connected ' + ++sCount);
-  socket.emit('news', { hello: 'world' });
+  socket.emit('news', { hello: socket.id });
   socket.on('my other event', function (data) {
     console.log('SERVER: ');
     console.log(data);
   });
 
   socket.on('serverMsg', function (data) {
-    console.log('SERVER received: ' + data);
-    console.log('forwarding::');
+    console.log('SERVER received: ');
     console.log(data);
-    io.sockets.in('all').emit('allmsg', { message: data });
+    // console.log('forwarding::');
+    // console.log(data);
+    // io.sockets.in('all').emit('allmsg', { message: data });
   });
 
   socket.on( 'disconnect', function(err) {

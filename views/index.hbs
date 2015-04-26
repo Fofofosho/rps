@@ -11,9 +11,50 @@
 	<body>
 		<div class="wrapper noselect"></div>
 		<script>
-			//prepopulate relationships with data
-            var name;
+            var myName;
             var password;
+
+            var socket;
+            initSocket(true);
+
+            function initSocket(bool) {
+                console.log('>> ==============initSocket================');
+                if ( bool === true )
+                {  
+                  if ( socket == undefined )
+                    socket = io();
+                  else
+                    console.log('WOOOOOOAH');
+                }
+                else
+                {
+                  socket = io.connect('http://localhost:3000',{'forceNew':true});
+                }
+                console.log(socket);
+
+                console.log('<< ==============initSocket================');
+            }
+
+            function sendAction( targetStr, action ) {
+                console.log('>> ==============sendAction================');
+
+                var msg =
+                    {
+                        sourceStr:  myName,
+                        destStr:    targetStr,
+                        actionId:   action
+                    };
+
+                console.log('CLIENT SENDING:vvv');
+                console.log(msg);
+
+                socket.emit('serverMsg', {id: socket.id, message: msg});
+
+                console.log('<< ==============sendAction================');
+            }
+
+			//prepopulate relationships with data
+
 			var matches  = [new Match(5,"doppl3r", -1), new Match(12,"dooley",1),
                             new Match(3,"ted555",-1), new Match(-3,"octodad",-1),
                             new Match(18,"roboto",2), new Match(3,"fillistake",-1),
@@ -34,7 +75,7 @@
             function initLogin(){
                 //append the login forms
                 $(".wrapper").append('<form class="form" id="form1" autocomplete="off">'+
-                    '<input class="fade" type="text" name="name" placeholder="name">'+
+                    '<input class="fade" type="text" name="myName" placeholder="name">'+
                     '<input class="fade" type="password" name="password" placeholder="password">'+
                     '<input class="fade" type="submit" value="login"></form>');
                 $("#form1").submit(function(e){ validateLogin(); return false; });
@@ -58,8 +99,10 @@
             function validateLogin(){
                 //check the server for appropriate name and password
                 if (true){
-                    console.log("name: "+$('#form1').find('input[name="name"]').val());
-                    console.log("password: "+$('#form1').find('input[name="password"]').val());
+                    myName = $('#form1').find('input[name="myName"]').val();
+                    password = $('#form1').find('input[name="password"]').val();
+                    console.log("name: " + myName);
+                    console.log("password: " + password);
                     $(".wrapper").empty(); //empty the main window;
                     refreshMatches();
                 }
@@ -81,10 +124,15 @@
 					//do stuff
 					$(e).toggleClass("selected");
 					$(e).closest('.match').addClass('waiting');
+
 					//send the id to somewhere...I chose to send it to console
-					console.log('targetID:'+$(e).closest('.match').find('.target').text());
-					console.log('action:'+ $(e).closest('.match').find('span').index(e));
-                    
+                    var targetId = $(e).closest('.match').find('.target').text();
+					console.log('targetID:'+ targetId);
+                    var action = $(e).closest('.match').find('span').index(e);
+					console.log('action:'+ action);
+
+                    sendAction( targetId, action );
+
                     //save the matches to the local system
                     matches[$(e).closest('.match').index()].action = $(e).closest('.match').find('span').index(e);
 				}
