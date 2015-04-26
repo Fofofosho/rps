@@ -74,7 +74,7 @@
       console.log('BROADCASTed CLIENT MSG:vvv');
       console.log(data.message);
       $(function() {
-        $('#pp').html("<b>msgSocketId:</b> " + data.message.id + '<br>' + "<b>msg:</b> " + data.message.message + '<br>');
+        $('#pp').append($('<li>').html("<b>msgSocketId:</b> " + data.message.id + '<br>' + "<b>msg:</b> " + data.message.message + '<br>'));
       });
     }
   });
