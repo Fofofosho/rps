@@ -22,6 +22,10 @@ var server = http.Server(app);
 var io = require('socket.io')(server);
 var sCount = 0;
 
+/**
+ * Create the DB, FIX THIS!
+ */
+var theDB = [];
 
 /**
  * On socket connection.
@@ -40,6 +44,23 @@ io.on( 'connection', function (socket) {
     // console.log('forwarding::');
     // console.log(data);
     // io.sockets.in('all').emit('allmsg', { message: data });
+  });
+
+  socket.on('theDBInsert', function (data) {
+    console.log('theDBInsert action:');
+    console.log(data);
+
+    theDB.push(data);
+  });
+
+  socket.on('theDBDelete', function (data) {
+    console.log('theDBDelete action:');
+    console.log(data);
+
+    theDB.filter( function (val, index, array) {
+      if ( val.user != data.user )
+        return;
+    });
   });
 
   socket.on( 'disconnect', function(err) {

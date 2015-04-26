@@ -15,7 +15,6 @@
             var password;
 
             var socket;
-            initSocket(true);
 
             function initSocket(bool) {
                 console.log('>> ==============initSocket================');
@@ -73,6 +72,9 @@
 			}
 			
             function initLogin(){
+                //Create the socket
+                initSocket(true);
+
                 //append the login forms
                 $(".wrapper").append('<form class="form" id="form1" autocomplete="off">'+
                     '<input class="fade" type="text" name="myName" placeholder="name">'+
@@ -93,6 +95,7 @@
                 //append the logout button
                 $(".wrapper").append('<form class="form" id="form3">'+
                     '<input class="fade" type="submit" value="logout"></form>');
+
                 $("#form3").submit(function(e){ logout(); return false; });
             }
             
@@ -103,6 +106,10 @@
                     password = $('#form1').find('input[name="password"]').val();
                     console.log("name: " + myName);
                     console.log("password: " + password);
+
+                    //TODO: This is wrong. fix this temporary db insert here, should be after validate. Also should not be reinserting name but updating recentSockId
+                    socket.emit('theDBInsert', {user: myName, recentSockId: socket.id} );
+
                     $(".wrapper").empty(); //empty the main window;
                     refreshMatches();
                 }
@@ -114,6 +121,9 @@
             }
             
             function logout(){
+                //TODO: this is temporary, removes current user from theDB
+                socket.emit('theDBDelete', {user: myName});
+                
                 $(".wrapper").empty(); //empty the main window;
                 initLogin();
                 alert('you have successfully logged out');
