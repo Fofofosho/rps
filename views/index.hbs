@@ -72,9 +72,9 @@
     if ( data.message.id != socket.id )
     {
       console.log('BROADCASTed CLIENT MSG:vvv');
-      console.log(data.message.id);
+      console.log(data.message);
       $(function() {
-        $('#pp').text = data.message.id;
+        $('#pp').html("<b>msgSocketId:</b> " + data.message.id + '<br>' + "<b>msg:</b> " + data.message.message + '<br>');
       });
     }
   });
@@ -84,7 +84,7 @@
 <h1>{{title}}</h1>
 <p>Welcome to {{title}}</p>
 <p>notes: {{note}}</p>
-<div id='pp'> </div>
+<div id='pp'></div>
 <br>
 <button type="button" onclick="sockConn()">Connect</button>
 <button type="button" onclick="sockDisc()">Disconnect</button>
