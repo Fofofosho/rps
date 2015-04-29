@@ -27,6 +27,10 @@ var sCount = 0;
  */
 var theDB = [];
 
+//TODO: Need a messaging system for each user to check and see what 
+//  incoming/pending actions they have. Only remove their message when
+//  they respond to the user that sent the notification.
+
 /**
  * On socket connection.
  */
@@ -51,6 +55,8 @@ io.on( 'connection', function (socket) {
     console.log(data);
 
     theDB.push(data);
+
+    socket.emit('test', theDB);
   });
 
   socket.on('theDBDelete', function (data) {
@@ -63,11 +69,72 @@ io.on( 'connection', function (socket) {
     });
   });
 
+  //Not capable of concurrent search
+  socket.on('theDBSearch', function (data) {
+    console.log('theDBSearch action:');
+    console.log(data);
+
+    if ( theDB == null )
+    {
+      console.log('DB empty');
+      return false;
+    }
+
+    theDB.forEach( function (iVal, iIndex, iArray) {
+      if ( iVal.user == data.friendStr )
+      {
+        //Send to the two parties
+        theDB.forEach( function (jVal, jIndex, jArray) {
+          if ( jVal.user == data.user )
+          {
+            console.log('FRIEND');
+            console.log(iVal);
+            console.log('ME');
+            console.log(jVal);
+            //Send to friend
+            io.to(iVal.recentSockId).emit('theDBSearchResult', jVal);
+
+            //Send to friend
+            io.to(jVal.recentSockId).emit('theDBSearchResult', iVal);
+            return true;
+          }
+        });
+
+        console.log('Searching Complete!!');
+
+        return true;
+      }
+
+      console.log('ERROR: Searching for \'' + data.friendStr + '\' didnt work');
+      
+    });
+  });
+
   socket.on( 'disconnect', function(err) {
     --sCount;
     console.log('SERVER: client disconnect ' + sCount);
   });
 
+  //Connection error
+  socket.on('error', function(err) {
+    if ( err )
+    {
+      console.log('ERrrrrr connection');
+      console.log(err);
+    }
+  });
+
+  //TODO: Not sure if this is correct, 'error' might be correct
+  //Object error
+  // socket.on('Object', function(err) {
+  //   if ( err )
+  //   {
+  //     console.log('ERrrrrr object');
+  //     console.log(err);
+  //   }
+  // });
+
+  //A way for a master socket to talk to all players.
   socket.join('all');
 
 });
