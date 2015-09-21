@@ -71,6 +71,10 @@ io.on( 'connection', function (socket) {
 
   //Not capable of concurrent search
   socket.on('theDBSearch', function (data) {
+    var targetData;
+    var sourceData;
+    var found = false;
+
     console.log('theDBSearch action:');
     console.log(data);
 
@@ -80,34 +84,45 @@ io.on( 'connection', function (socket) {
       return false;
     }
 
-    theDB.forEach( function (iVal, iIndex, iArray) {
-      if ( iVal.user == data.friendStr )
+    theDB.forEach( function (target, iIndex, iArray) {
+      if ( target.user == data.friendStr )
       {
-        //Send to the two parties
-        theDB.forEach( function (jVal, jIndex, jArray) {
-          if ( jVal.user == data.user )
-          {
-            console.log('FRIEND');
-            console.log(iVal);
-            console.log('ME');
-            console.log(jVal);
-            //Send to friend
-            io.to(iVal.recentSockId).emit('theDBSearchResult', jVal);
-
-            //Send to friend
-            io.to(jVal.recentSockId).emit('theDBSearchResult', iVal);
-            return true;
-          }
-        });
-
-        console.log('Searching Complete!!');
-
-        return true;
+        found = true;
+        targetData = target;
       }
-
-      console.log('ERROR: Searching for \'' + data.friendStr + '\' didnt work');
-      
     });
+
+    //Send to the two parties
+    theDB.forEach( function (source, jIndex, jArray) {
+      if ( source.user == data.user )
+      {
+        sourceData = source;
+      }
+    });
+
+    console.log('Searching Complete!!');
+
+    if ( found )
+    {
+      console.log('FRIEND');
+      console.log(targetData);
+      console.log('ME');
+      console.log(sourceData);
+
+      //Send to target
+      io.to(targetData.recentSockId).emit('theDBSearchResult', sourceData);
+
+      //Send to source
+      io.to(sourceData.recentSockId).emit('theDBSearchResult', targetData);
+    }
+    else
+    {
+      //send to source that user does not exist
+      console.log('ERROR: Searching for \'' + data.friendStr + '\' not found');
+      console.log(sourceData);
+      io.to(sourceData.recentSockId).emit('theDBSearchResult', {'user': null});
+    }
+
   });
 
   socket.on( 'disconnect', function(err) {

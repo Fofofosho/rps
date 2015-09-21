@@ -91,12 +91,6 @@
                     //Create the socket
                     initSocket(true);
 
-                    //TEST
-                    socket.on('test', function (data) {
-                        console.log('test event:');
-                        console.log(data);
-                    });
-
                     validateLogin(); 
                     return false; 
                 });
@@ -151,10 +145,20 @@
                     console.log("name: " + myName);
                     console.log("password: " + password);
 
+                    //Create json object to send to server
+                    while ( socket.id == undefined )
+                    {
+                        console.log("waiting");
+                    }
+
+                    console.log(socket.id);
+                    var request = {'user': myName, 'recentSockId': socket.id};
+                    console.log(request);
+
                     //TODO: This is wrong. fix this temporary db insert here, should be after validate. Also should not be reinserting name but updating recentSockId.
                     //TODO: If user exists, update recentSockId to be socket.id
                     //TODO: Should be a REST call..
-                    socket.emit('theDBInsert', {user: myName, recentSockId: socket.id} );
+                    socket.emit('theDBInsert', request );
 
                     $(".list").empty(); //empty the main window;
                     $(".login").empty(); //empty the login window;
@@ -195,7 +199,7 @@
                         alert('you have successfully logged out');
                     }
                 }
-                
+
                 initLogin();
             }
             
