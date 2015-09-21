@@ -9,7 +9,12 @@
 		<link rel='shortcut icon' type='image/x-icon' href='img/favicon.ico' />
 	</head>
 	<body>
-		<div class="wrapper noselect"></div>
+        <div class="wrapper noselect">
+    		<div class="list noselect"></div>
+            <div class="search noselect"></div>
+            <div class="logout noselect"></div>
+            <div class="login noselect"></div>
+        </div>
 		<script>
             var myName;
             var password;
@@ -74,27 +79,32 @@
 				this.action=action;
 			}
 			
-            function initLogin(){
-                //Create the socket
-                initSocket(true);
-
-                //TEST
-                socket.on('test', function (data) {
-                    console.log('test event:');
-                    console.log(data);
-                });
- 
+            function initLogin(){ 
                 //append the login forms
-                $(".wrapper").append('<form class="form" id="form1" autocomplete="off">'+
+                $(".login").html('<form class="form" id="form1" autocomplete="off">'+
                     '<input class="fade" type="text" name="myName" placeholder="name">'+
                     '<input class="fade" type="password" name="password" placeholder="password">'+
                     '<input class="fade" type="submit" value="login"></form>');
-                $("#form1").submit(function(e){ validateLogin(); return false; });
+
+                //On submit of "LOGIN"
+                $("#form1").submit( function(e){ 
+                    //Create the socket
+                    initSocket(true);
+
+                    //TEST
+                    socket.on('test', function (data) {
+                        console.log('test event:');
+                        console.log(data);
+                    });
+
+                    validateLogin(); 
+                    return false; 
+                });
             }
             
             function initSearch(){
                 //append the search options
-                $(".wrapper").append('<form class="form" id="form2">'+
+                $(".search").html('<form class="form" id="form2">'+
                     '<input class="fade" type="text" name="name" placeholder="friend">'+
                     '<input class="fade" type="submit" value="search"></form>');
 
@@ -127,7 +137,7 @@
             
             function initLogout(){
                 //append the logout button
-                $(".wrapper").append('<form class="form" id="form3">'+
+                $(".logout").html('<form class="form" id="form3">'+
                     '<input class="fade" type="submit" value="logout"></form>');
 
                 $("#form3").submit(function(e){ logout(); return false; });
@@ -143,9 +153,13 @@
 
                     //TODO: This is wrong. fix this temporary db insert here, should be after validate. Also should not be reinserting name but updating recentSockId.
                     //TODO: If user exists, update recentSockId to be socket.id
+                    //TODO: Should be a REST call..
                     socket.emit('theDBInsert', {user: myName, recentSockId: socket.id} );
 
-                    $(".wrapper").empty(); //empty the main window;
+                    $(".list").empty(); //empty the main window;
+                    $(".login").empty(); //empty the login window;
+
+                    //TODO: fetch friend list from db, then send to update list function with db data.
                     refreshMatches();
                 }
             }
@@ -166,9 +180,23 @@
                 //TODO: this is temporary, removes current user from theDB
                 socket.emit('theDBDelete', {user: myName});
 
-                $(".wrapper").empty(); //empty the main window;
+                $(".list").empty(); //empty the main window;
+                $(".search").empty(); //empty the search window
+                $(".logout").empty(); //empty the logout window
+
+                if ( socket != undefined )
+                {
+                    //cleanup client side socket
+                    socket.disconnect();
+                    socket = null;
+
+                    if ( socket == undefined )
+                    {
+                        alert('you have successfully logged out');
+                    }
+                }
+                
                 initLogin();
-                alert('you have successfully logged out');
             }
             
 			function selectAction(e){
@@ -191,9 +219,12 @@
 			}
             
             function refreshMatches(){
+                //remove previous list
+                $(".list").empty();
+
                 //append relationships into HTML code
 				for (i = 0; i < matches.length; i++){
-					$(".wrapper").append('<div class="match fade'+(matches[i].action > -1 ? " waiting" : "")+'">'+
+					$(".list").append('<div class="match fade'+(matches[i].action > -1 ? " waiting" : "")+'">'+
 						'<div class="score">'+matches[i].score+'</div>'+
 						'<div class="target">'+matches[i].target+'</div>'+
 						'<div class="actions"><span class="action1 fade" onclick="selectAction(this);"></span></div>'+
@@ -201,6 +232,7 @@
 						'<div class="actions"><span class="action3 fade" onclick="selectAction(this);"></span></div></div>');
                     $(".match").eq(i).find(".action"+(matches[i].action+1)).toggleClass("selected"); //toggle class action value
 				}
+
                 initSearch(); //append search option
                 initLogout(); //append logout field
                 
