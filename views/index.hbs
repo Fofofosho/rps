@@ -67,11 +67,10 @@
                             new Match(18,"roboto",2), new Match(3,"fillistake",-1),
                             new Match(-2,"richard4",-1), new Match(99,"dougle",-1)];
             
-            $(document).ready(function() { 
+            $(function() { 
                 initLogin();
-				
 			});
-			$(window).load(function() {  });
+			// $(window).load(function() {  });
             
 			function Match(score, target, action){ //int, string id, -1=undefined, 0=rock, 1=paper, 2=scissors
 				this.score=score;
@@ -91,8 +90,12 @@
                     //Create the socket
                     initSocket(true);
 
-                    validateLogin(); 
-                    return false; 
+                    setTimeout(function(){
+                        console.log('waiting .5 seconds');
+                        validateLogin();
+                    }, 500);
+
+                    return false;
                 });
             }
             
@@ -138,21 +141,19 @@
             }
             
             function validateLogin(){
-                //check the server for appropriate name and password
+                //TODO: check the server for appropriate name and password
                 if (true){
                     myName = $('#form1').find('input[name="myName"]').val();
                     password = $('#form1').find('input[name="password"]').val();
                     console.log("name: " + myName);
                     console.log("password: " + password);
 
-                    //Create json object to send to server
-                    while ( socket.id == undefined )
-                    {
-                        console.log("waiting");
-                    }
+                    //TODO: Create json object to send to server??
+
+                    console.log("waiting");
 
                     //DEBUG: SOCKET ID CURRENTLY BROKEN
-                    console.log(socket.id);
+                    console.log('socket id: ' + socket.id);
                     var request = {'user': myName, 'recentSockId': socket.id};
                     console.log(request);
 
