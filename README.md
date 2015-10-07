@@ -1,5 +1,5 @@
-To run, go to this repo's directory and issue
+To start running:
 
 1) npm install
 2) npm start
-3) localhost:3000 on browser
+3) go to localhost:3000 on browser
