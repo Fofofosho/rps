@@ -1,7 +1,10 @@
 import * as functions from 'firebase-functions';
+import * as admin from 'firebase-admin';
 import { DataSnapshot } from 'firebase-functions/lib/providers/database';
 // tslint:disable-next-line:no-duplicate-imports
 import { EventContext } from 'firebase-functions';
+import { UserRecord } from 'firebase-functions/lib/providers/auth';
+admin.initializeApp();
 
 // // Start writing Firebase Functions
 // // https://firebase.google.com/docs/functions/typescript
@@ -21,3 +24,20 @@ export const onCreate = functions.database.ref('/users/{userId}/email')
         // Setting an "uppercase" sibling in the Realtime Database returns a Promise.
         return snapshot.ref.parent.child('uppercaseEmail').set(uppercaseEmail);
     });
+
+exports.addUser = functions.auth.user().onCreate((user: UserRecord) => {
+    const email: string = user.email;
+    const displayName: string = user.displayName;
+    const photoURL: string = user.photoURL;
+
+    return admin.database().ref('/users').set({
+        username: displayName,
+        email: email,
+        profile_picture : photoURL
+    }).then(() => {
+        return { newEmail: email }
+    })
+    .catch((error) => {
+        throw new functions.https.HttpsError('unknown', error.message, error);
+    });
+});
