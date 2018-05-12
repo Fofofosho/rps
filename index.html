@@ -24,13 +24,11 @@
             }
 
             function writeUserData(userId, name, email, imageUrl) {
-                var dbCall = db.ref('users/' + userId).set({
+                db.ref('users/' + userId).set({
                     username: name,
                     email: email,
                     profile_picture : imageUrl
                 });
-
-                console.log("something happened", JSON.stringify(dbCall, null, 2));
             }
         </script>
 
