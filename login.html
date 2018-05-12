@@ -40,6 +40,7 @@
 					document.getElementById('quickstart-sign-in').disabled = false;
 				});
 				document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
+				document.getElementById('delete-user').addEventListener('click', deleteUser, false);
 			}
 
 			//sign in or out of an account
@@ -66,10 +67,19 @@
 				else { firebase.auth().signOut(); }
 				document.getElementById('quickstart-sign-in').disabled = true;
 			}
+			function deleteUser(){
+				var user = firebase.auth().currentUser;
+				user.delete().then(function() {
+					console.log('deleted a fool');
+				 }).catch(function(error) {
+					console.log('nothing got deleted', error);
+				 });
+			}
 		</script>
     </head>
     <body>
 		<button disabled id="quickstart-sign-in">Sign in with Google</button>
+		<button id="delete-user">Delete User</button>
 		<div>
 			<h2>Firebase sign-in status:</h2>
 			<div id="quickstart-sign-in-status">Unknown</div>
