@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <script type="text/javascript" src="/web/pages/login/actions.js"></script>
+    </head>
+    <body>
+        <button id="testBtn">test?</button>
+        <button id="quickstart-sign-in">Sign in with Google</button>
+        <button id="delete-user">Delete User</button>
+        <div>
+            <h2>Firebase sign-in status:</h2>
+            <div id="quickstart-sign-in-status">Unknown</div>
+            <h2>Firebase auth object value:</h2>
+            <div id="quickstart-account-details">null</div>
+            <h2>Google OAuth Access Token:</h2>
+            <div id="quickstart-oauthtoken">null</div>
+        </div>
+    </body>
+    <!-- <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
+    <script>
+        //load the app when window is loaded
+        window.onload = function () {
+            initApp();
+        };
+        
+        //initialize the app
+        function initApp() {
+            var config = {
+                apiKey: "AIzaSyC6wtyQ4xvSG330Tjmt04OCto0oyxsoNBc",
+                authDomain: "rockpaperscissors-1e6d3.firebaseapp.com",
+                databaseURL: "https://rockpaperscissors-1e6d3.firebaseio.com",
+                projectId: "rockpaperscissors-1e6d3",
+                storageBucket: "rockpaperscissors-1e6d3.appspot.com",
+                messagingSenderId: "907654155517"
+            };
+            firebase.initializeApp(config);
+            firebase.auth().onAuthStateChanged(function (user) {
+                if (user) {
+                    var displayName = user.displayName;
+                    var email = user.email;
+                    var emailVerified = user.emailVerified;
+                    var photoURL = user.photoURL;
+                    var isAnonymous = user.isAnonymous;
+                    var uid = user.uid;
+                    var providerData = user.providerData;
+                    document.getElementById('quickstart-sign-in-status').textContent = 'Signed in';
+                    document.getElementById('quickstart-sign-in').textContent = 'Sign out';
+                    document.getElementById('quickstart-account-details').textContent = JSON.stringify(user, null, '  ');
+                } else {
+                    document.getElementById('quickstart-sign-in-status').textContent = 'Signed out';
+                    document.getElementById('quickstart-sign-in').textContent = 'Sign in with Google';
+                    document.getElementById('quickstart-account-details').textContent = 'null';
+                    document.getElementById('quickstart-oauthtoken').textContent = 'null';
+                }
+                document.getElementById('quickstart-sign-in').disabled = false;
+            });
+            document.getElementById('quickstart-sign-in').addEventListener('click', toggleSignIn, false);
+            document.getElementById('delete-user').addEventListener('click', deleteUser, false);
+        }
+
+        //sign in or out of an account
+        function toggleSignIn() {
+            if (!firebase.auth().currentUser) {
+                var provider = new firebase.auth.GoogleAuthProvider();
+                provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
+                firebase.auth().signInWithPopup(provider).then(function (result) {
+                    var token = result.credential.accessToken;
+                    var user = result.user;
+                    document.getElementById('quickstart-oauthtoken').textContent = token;
+                }).catch(function (error) {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    var email = error.email;
+                    var credential = error.credential;
+                    if (errorCode === 'auth/account-exists-with-different-credential') {
+                        alert('You have already signed up with a different auth provider for that email.');
+                    } else {
+                        console.error(error);
+                    }
+                });
+            } 
+            else { firebase.auth().signOut(); }
+            document.getElementById('quickstart-sign-in').disabled = true;
+        }
+        function deleteUser(){
+            var user = firebase.auth().currentUser;
+            user.delete().then(function() {
+                console.log('deleted a fool');
+                }).catch(function(error) {
+                console.log('nothing got deleted', error);
+                });
+        }
+    </script> -->
+</html>
