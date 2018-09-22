@@ -1,6 +1,7 @@
 // https://hackernoon.com/webpack-3-quickstarter-configure-webpack-from-scratch-30a6c394038a
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 // Every time we want to see our production ready dist folder, we need to delete the previous one. 
 // Such a pain! clean-webpack-plugin is to remove/clean your build folder(s) before building.
@@ -25,7 +26,12 @@ const moduleRules = {
 
 // Plugin section
 const plugins = [
-  new CleanWebpackPlugin(['dist']),
+  // new CleanWebpackPlugin(['dist']),
+  new HtmlWebpackPlugin({
+    title: 'Custom template 2',
+    // Load a custom template (lodash by default see the FAQ for details)
+    template: './src/html/template.html'
+  }),
   new webpack.DefinePlugin({
     'process.env': {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV)
@@ -45,11 +51,12 @@ const output = {
 
 // dev server config
 const devServer = {
-  // contentBase: path.resolve(__dirname, "./dist/assets/media"),
+  contentBase: path.resolve(__dirname, "./dist"),
   compress: true,
   port: 5000,
   stats: 'errors-only',
-  open: true
+  open: true,
+  watchContentBase: true
 };
 
 // This option controls if and how source maps are generated. 
