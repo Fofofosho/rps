@@ -6,4 +6,4 @@ functions/firebase-debug.log
 npm-debug.log
 
 # Ignore webpack built typescript
-**/dist
+# **/dist

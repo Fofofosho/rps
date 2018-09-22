@@ -1,18 +1,19 @@
-import firebase from '@firebase/app';
-// import 'firebase/auth';
+import { FirebaseService } from './scripts/FirebaseService';
 
-export class MainApp {
-    constructor() {
-        return firebase.initializeApp({
-            apiKey: "AIzaSyC6wtyQ4xvSG330Tjmt04OCto0oyxsoNBc",
-            authDomain: "rockpaperscissors-1e6d3.firebaseapp.com",
-            databaseURL: "https://rockpaperscissors-1e6d3.firebaseio.com",
-            projectId: "rockpaperscissors-1e6d3",
-            storageBucket: "rockpaperscissors-1e6d3.appspot.com",
-            messagingSenderId: "907654155517"
-        });
-    }
-}
+const firebase = new FirebaseService();
+
+console.log('init occurred');
+
+function writeUserData (userId: String, name: String, email: String, imageUrl: String) {
+    console.log('WRITE USER DATA START');
+    firebase.writeUserData(userId, name, email, imageUrl);
+};
+
+writeUserData('32523352', 'jacob', 'jacob@dopplercreative.com', 'img/me.jpg');
+
+// initDB(){
+//     dbf.writeUserData('32523352', 'jacob', 'jacob@dopplercreative.com', 'img/me.jpg');
+// }
 
 // firebase.auth().onAuthStateChanged((user: String) => {
 //     if (user) {

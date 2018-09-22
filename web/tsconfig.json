@@ -12,6 +12,7 @@
       "noUnusedLocals": true,
 
       // firebase issue -  https://github.com/firebase/firebase-js-sdk/issues/820#issuecomment-389476478
-      "esModuleInterop": true
+      // "esModuleInterop": true
+      "allowSyntheticDefaultImports": true
     }
   }
