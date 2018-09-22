@@ -8,19 +8,8 @@
         <button onclick="myFunction()">
             Text?
         </button>
-        <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
         <script>
             // Initialize Firebase
-            var config = {
-                apiKey: "AIzaSyC6wtyQ4xvSG330Tjmt04OCto0oyxsoNBc",
-                authDomain: "rockpaperscissors-1e6d3.firebaseapp.com",
-                databaseURL: "https://rockpaperscissors-1e6d3.firebaseio.com",
-                projectId: "rockpaperscissors-1e6d3",
-                storageBucket: "rockpaperscissors-1e6d3.appspot.com",
-                messagingSenderId: "907654155517"
-            };
-            firebase.initializeApp(config);
-
             var db = firebase.database();
 
             function myFunction() {

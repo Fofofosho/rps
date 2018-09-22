@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "outDir": "./dist/",
+      "module": "es6",
+      "target": "es5",
+      "sourceMap": true,
+      //rules
+      "allowJs": true,
+      "forceConsistentCasingInFileNames": true,
+      "strict": true, // adds noImplicitAny, noImplicitThis, alwaysStrict, and strictNullChecks
+      "noImplicitReturns": true,
+      "noUnusedLocals": true,
+
+      // firebase issue -  https://github.com/firebase/firebase-js-sdk/issues/820#issuecomment-389476478
+      "esModuleInterop": true
+    }
+  }

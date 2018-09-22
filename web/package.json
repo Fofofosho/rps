@@ -1,0 +1,23 @@
+{
+  "name": "rps",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "^4.16.3",
+    "firebase": "^5.5.0"
+  },
+  "scripts": {
+    "build": "./node_modules/.bin/webpack",
+    "build:prod": "./node_modules/.bin/webpack -p",
+    "watch": "./node_modules/.bin/webpack --watch",
+    "dev": "./node_modules/.bin/webpack-dev-server"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^0.1.19",
+    "ts-loader": "^5.1.1",
+    "typescript": "^3.0.3",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0",
+    "webpack-dev-server": "^3.1.8"
+  }
+}
