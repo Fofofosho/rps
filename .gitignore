@@ -1,6 +1,9 @@
 # Ignore node_modules
-**/node_modules/*
+**/node_modules
 node_modules/*
 functions/lib
 functions/firebase-debug.log
 npm-debug.log
+
+# Ignore webpack built typescript
+# **/dist

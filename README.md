@@ -1,7 +1,8 @@
 ## To start running the front-end:
-1. Use the visual studio Express plugin that host's your site on a random port.
-2. Travel to either of the HTML pages
-
+1. go to dir `web`
+2. `npm install`
+3. `npm run build`
+4. `npm run dev` (also watches and it will launch to the `localhost:5000`
 
 ## To start working with the cloud functions, here are some resources:
 1. https://firebase.google.com/docs/functions/
