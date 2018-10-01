@@ -15,6 +15,7 @@
   },
   "devDependencies": {
     "clean-webpack-plugin": "^0.1.19",
+    "html-loader": "^0.5.5",
     "ts-loader": "^5.1.1",
     "typescript": "^3.0.3",
     "webpack": "^4.19.1",

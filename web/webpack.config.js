@@ -20,6 +20,12 @@ const moduleRules = {
       include: /src/,
       use: 'ts-loader',
       exclude: /node_modules/,
+    },
+    {
+      test: /\.html$/,
+      include: /src/,
+      use: 'html-loader',
+      exclude: /node_modules/,
     }
   ]
 };

@@ -14,7 +14,7 @@ export class FirebaseService {
     constructor() {
         firebase.initializeApp(config);
         this.db = firebase.database();
-        document.getElementById('quickstart-sign-in').addEventListener('click', this.toggleSignIn, false);
+        // document.getElementById('quickstart-sign-in').addEventListener('click', this.toggleSignIn, false);
         // console.log(`check firebase ${JSON.stringify(this.app)}`);
     }
     
