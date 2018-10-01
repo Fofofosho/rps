@@ -1,17 +1,8 @@
 import firebase from 'firebase';
 //import 'firebase/database';
 
-const config = {
-    apiKey: "AIzaSyC6wtyQ4xvSG330Tjmt04OCto0oyxsoNBc",
-    authDomain: "rockpaperscissors-1e6d3.firebaseapp.com",
-    databaseURL: "https://rockpaperscissors-1e6d3.firebaseio.com",
-    projectId: "rockpaperscissors-1e6d3",
-    storageBucket: "rockpaperscissors-1e6d3.appspot.com",
-    messagingSenderId: "907654155517"
-};
-
 export class FirebaseService {
-    constructor() {
+    constructor(config) {
         firebase.initializeApp(config);
         this.db = firebase.database();
         document.getElementById('quickstart-sign-in').addEventListener('click', this.toggleSignIn, false);

@@ -1,6 +1,16 @@
 import { FirebaseService } from './scripts/FirebaseService';
 
-const firebase = new FirebaseService();
+let env = process.env.NODE_ENV || "development";
+let config: Object;
+if (env === 'development') {
+    config = JSON.parse(atob(process.env.FIREBASE_CONFIG_DEV || ""));
+} else {
+    config = JSON.parse(atob(process.env.FIREBASE_CONFIG || ""));
+}
+
+console.log(`config test ${config}`);
+
+const firebase = new FirebaseService(config);
 
 console.log('init occurred');
 

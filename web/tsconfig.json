@@ -1,7 +1,7 @@
 {
     "compilerOptions": {
       "outDir": "./dist/",
-      "module": "es6",
+      "module": "commonjs",
       "target": "es5",
       "sourceMap": true,
       //rules
@@ -12,7 +12,6 @@
       "noUnusedLocals": true,
 
       // firebase issue -  https://github.com/firebase/firebase-js-sdk/issues/820#issuecomment-389476478
-      // "esModuleInterop": true
-      "allowSyntheticDefaultImports": true
+      "esModuleInterop": true
     }
   }
