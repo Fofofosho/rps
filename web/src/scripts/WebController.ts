@@ -15,4 +15,14 @@ export default class WebController {
         const contentHtml:HTMLElement = document.getElementById("content")!;
         contentHtml.innerHTML = loginHtml;
     }
+
+    checkFirebaseLogin() {
+        let user = this.firebaseConfig.verifyLogin();
+        
+        if (!user) {
+            this.getLoginHtml();
+            const html:HTMLElement = document.getElementById('quickstart-sign-in')!;
+            html.addEventListener('click', this.firebaseConfig.toggleSignIn, false);
+        }
+    }
 }

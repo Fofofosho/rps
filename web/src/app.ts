@@ -13,8 +13,21 @@ initButton.addEventListener("click", initMain, false);
 // };
 
 function initMain() {
-    webController.getLoginHtml();
+    webController.checkFirebaseLogin();
+
+    /* firebase.auth().onAuthStateChanged((user: String) => {
+        if (user) {
+            // User is signed in.
+            console.log('user already signed in');
+        }
+        else {
+            // No user is signed in.
+            console.log('user already signed in');
+        }
+    }); */
 }
+
+initMain();
 
 //writeUserData('32523352', 'jacob', 'jacob@dopplercreative.com', 'img/me.jpg');
 

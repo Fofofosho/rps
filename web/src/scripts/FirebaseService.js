@@ -14,7 +14,6 @@ export class FirebaseService {
     constructor() {
         firebase.initializeApp(config);
         this.db = firebase.database();
-        // document.getElementById('quickstart-sign-in').addEventListener('click', this.toggleSignIn, false);
         // console.log(`check firebase ${JSON.stringify(this.app)}`);
     }
     
@@ -54,5 +53,11 @@ export class FirebaseService {
         } 
         else { firebase.auth().signOut(); }
         document.getElementById('quickstart-sign-in').disabled = true;
+    }
+
+    verifyLogin() {
+        firebase.auth().onAuthStateChanged((user) => {
+            return user;
+        });
     }
 }
